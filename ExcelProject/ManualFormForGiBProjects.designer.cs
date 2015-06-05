@@ -48,8 +48,12 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.ExcelGridView);
-            this.splitContainer1.Size = new System.Drawing.Size(1400, 361);
-            this.splitContainer1.SplitterDistance = 249;
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.AutoScroll = true;
+            this.splitContainer1.Size = new System.Drawing.Size(1400, 561);
+            this.splitContainer1.SplitterDistance = 386;
             this.splitContainer1.TabIndex = 0;
             // 
             // ExcelGridView
@@ -67,7 +71,7 @@
             this.ExcelGridView.ReadOnly = true;
             this.ExcelGridView.RowHeadersVisible = false;
             this.ExcelGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ExcelGridView.Size = new System.Drawing.Size(1400, 249);
+            this.ExcelGridView.Size = new System.Drawing.Size(1400, 386);
             this.ExcelGridView.TabIndex = 0;
             this.ExcelGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.ExcelGridView_DataBindingComplete);
             this.ExcelGridView.SelectionChanged += new System.EventHandler(this.ExcelGridView_SelectionChanged);
@@ -78,11 +82,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1276, 361);
+            this.ClientSize = new System.Drawing.Size(1334, 561);
             this.Controls.Add(this.splitContainer1);
             this.MaximumSize = new System.Drawing.Size(1800, 600);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1278, 400);
+            this.MinimumSize = new System.Drawing.Size(1300, 550);
             this.Name = "ManualFormForGiBProjects";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ManualFormForGiBProjects";

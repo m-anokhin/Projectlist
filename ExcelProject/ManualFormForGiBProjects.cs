@@ -20,6 +20,10 @@ namespace ExcelProject
         private Dictionary<string,string> previousTextBoxValues = new Dictionary<string,string>();
         private Dictionary<string, string> currentTextBoxValues = new Dictionary<string,string>();
         private string dialogBoxMessage = string.Empty;
+        TextBox lockedOne = null;
+        private static int dynamicX = 5;
+        private static int labelY = 40;
+        private static int textboxY = labelY + 15;
         
 
         public ManualFormForGiBProjects()
@@ -106,40 +110,65 @@ namespace ExcelProject
 
         private void  AddUIControlsToPanel2ofSplitCOntainer() 
         {
-            int dynamicX = 5;
-            int labelY = 50;
-            int textboxY = labelY + 39;
+            //int dynamicX = 5;
+            //int labelY = 50;
+            //int textboxY = labelY + 39;
             try
             {
                 foreach (string columnname in headers)
                 {
-                    // creation of controls
-                    Label automaticLabel = new Label();
-                    TextBox automaticTextBox = new TextBox();
-                    // naming of controls
-                    automaticLabel.Name = "Label" + columnname;
-                    automaticLabel.Text = SettingLabelText(columnname);
-                    automaticLabel.AutoSize = true;
-                    //automaticLabel.Text = columnname + ": ";
-                    automaticTextBox.Name = "TextBox" + columnname;
-                    // positioning of controls
-                    automaticLabel.Location = new Point(dynamicX, labelY);
-                    automaticTextBox.Location = new Point(dynamicX, textboxY);
-                    //making controls visible
-                    automaticLabel.Show();
-                    automaticTextBox.Show();
-                    //making controls persistant
-                    this.splitContainer1.Panel2.Controls.Add(automaticLabel);
-                    this.splitContainer1.Panel2.Controls.Add(automaticTextBox);
-                    //offseting controls
-                    if (automaticLabel.Name.Equals("LabelProjektträgerUndAuftraggeber") || automaticLabel.Name.Equals("LabelHoheitlicheForschung"))
-                    {
-                        dynamicX += 140;
-                    }
-                    else
-                    {
-                        dynamicX += 110;
-                    }
+                    Label hinweise = new Label();
+                    hinweise.Text = "Hinweise zum Ausfühlen der Textfelder:\n\n" +
+                                    "Vertragsabschluss:     dd.mm.yyyy und nicht leer\n"+
+                                    "Projektnummer:         wird automatisch erstellt\n"+
+                                    "Projektname:           beliebig, nicht leer\n"+
+                                    "Labornummer:           6 stellige Zahl und Buchstaben\n"+
+                                    "PSPElement:            15 stellige Zahl\n"+
+                                    "Projekpartner:         nur Buchstaben\n" +
+                                    "Auftraggeber:          nur Buchstaben\n"+
+                                    "Projektanfang:         dd.mm.yyyy\n" +
+                                    "Projektanfang:         dd.mm.yyyy\n"+
+                                    "Projektvolumen:        ganze oder\nDezimalzahl\n"+
+                                    "Bearbeiter:            nur Buchstaben und nicht leer\n"+
+                                    "Dienstleistung:        x oder kein x\n"+
+                                    "Hoheitliche Forschung: x oder kein x\n"+
+                                    "Gutachten:             x oder kein x\n"+
+                                    "Freie Forschung:       x oder kein x\n"+
+                                    "Status:                nicht leer\n";
+                    SettingUI(columnname);
+                    hinweise.AutoSize=true;
+                    hinweise.ForeColor = System.Drawing.Color.Green;
+                    hinweise.Location = new Point(700, textboxY+40);
+                    hinweise.Show();
+                    this.splitContainer1.Panel2.Controls.Add(hinweise);
+                    //// creation of controls
+                    //Label automaticLabel = new Label();
+                    //TextBox automaticTextBox = new TextBox();
+                    //// naming of controls
+                    //automaticLabel.Name = "Label" + columnname;
+                    //automaticLabel.Text = SettingLabelText(columnname);
+                    //automaticLabel.AutoSize = true;
+                    ////automaticLabel.Text = columnname + ": ";
+                    //automaticTextBox.Name = "TextBox" + columnname;
+                    ////automaticTextBox.Width = 70;
+                    //// positioning of controls
+                    //automaticLabel.Location = new Point(dynamicX, labelY);
+                    //automaticTextBox.Location = new Point(dynamicX, textboxY);
+                    ////making controls visible
+                    //automaticLabel.Show();
+                    //automaticTextBox.Show();
+                    ////making controls persistant
+                    //this.splitContainer1.Panel2.Controls.Add(automaticLabel);
+                    //this.splitContainer1.Panel2.Controls.Add(automaticTextBox);
+                    ////offseting controls
+                    //if (automaticLabel.Name.Equals("LabelProjektträgerUndAuftraggeber") || automaticLabel.Name.Equals("LabelHoheitlicheForschung"))
+                    //{
+                    //    dynamicX += 110;
+                    //}
+                    //else
+                    //{
+                    //    dynamicX += 110;
+                    //}
 
                      
                 }
@@ -178,8 +207,8 @@ namespace ExcelProject
                 updateButton.Location = new Point(85, (textboxY + 40));
                 clearButton.Location = new Point(165, (textboxY + 40));
                 openDirectoryButton.Location = new Point(270, (textboxY + 40));
-                StatusLabel.Location = new Point(1535, (textboxY + 40));
-                StatusComboBox.Location = new Point(1635, (textboxY + 40));
+                StatusLabel.Location = new Point(435, (textboxY + 40));
+                StatusComboBox.Location = new Point(535, (textboxY + 40));
 
                 addButton.Click += addButton_Click;
                 updateButton.Click += updateButton_Click;
@@ -205,8 +234,9 @@ namespace ExcelProject
 
                 TextBox tempTextBox = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxStatus"];
                 tempTextBox.Enabled = false;
-                TextBox temp2TextBox = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxProjektnummer"];
-                temp2TextBox.Enabled = false;
+                //TextBox temp2TextBox = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxProjektnummer"];
+                lockedOne = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxProjektnummer"];
+                lockedOne.Enabled = false;
 
             }
             catch (Exception ex)
@@ -216,58 +246,178 @@ namespace ExcelProject
             }
             
         }
-        
+
+        public void SettingUI(string columnname)
+        {
+            Label automaticLabel = new Label();
+            TextBox automaticTextBox = new TextBox();
+            automaticLabel.Name = "Label" + columnname;
+            automaticLabel.Text = SettingLabelText(columnname);
+            automaticLabel.AutoSize = true;
+            automaticTextBox.Name = "TextBox" + columnname;
+            automaticLabel.Location = new Point(dynamicX, labelY);
+            automaticTextBox.Location = new Point(dynamicX, textboxY);
+
+            switch (columnname)
+            {
+                case "Vertragsabschluss":
+                    automaticLabel.Text = "Vertragsabschl.:";
+                    automaticTextBox.Width = 70;
+                    dynamicX += automaticTextBox.Width + 10;
+                    break;
+
+                case "Projektnummer":
+                    automaticLabel.Text = "Projektnum.:";
+                    automaticTextBox.Width = 55;
+                    dynamicX += automaticTextBox.Width + 10;
+                    break;
+
+                case "Projektname":
+                    automaticLabel.Text = "Projektname:";
+                    automaticTextBox.Width = 110;
+                    dynamicX += automaticTextBox.Width + 10;
+                    break;
+
+                case "Labornummer":
+                    automaticLabel.Text = "Labornum.:";
+                    automaticTextBox.Width = 55;
+                    dynamicX += automaticTextBox.Width + 10;
+                    break;
+
+                case "PSPElement":
+                    automaticLabel.Text = "PSPEl.:";
+                    dynamicX += automaticTextBox.Width + 10;
+                    break;
+
+                case "Projekpartner":
+                    automaticLabel.Text = "Projekpartner:";
+                    dynamicX += automaticTextBox.Width + 10;
+                    break;
+
+                case "ProjektträgerUndAuftraggeber":
+                    automaticLabel.Text = "Auftraggeber:";
+                    dynamicX += automaticTextBox.Width + 10;
+                    break;
+
+                case "ProjektAnfang":
+                    automaticLabel.Text = "P-Anfang:";
+                    automaticTextBox.Width = 70;
+                    dynamicX += automaticTextBox.Width + 10;
+                    break;
+
+                case "ProjektEnde":
+                    automaticLabel.Text = "P-Ende:";
+                    automaticTextBox.Width = 70;
+                    dynamicX += automaticTextBox.Width + 10;
+                    break;
+
+                case "Projektvolumen":
+                    automaticLabel.Text = "P-Volumen:";
+                    automaticTextBox.Width = 50;
+                    dynamicX += automaticTextBox.Width + 10;
+                    break;
+
+                case "Bearbeiter":
+                    automaticLabel.Text = "Bearbeiter:";
+                    automaticTextBox.Width = 40;
+                    dynamicX += automaticTextBox.Width + 20;
+                    break;
+
+                case "Dienstleistung":
+                    automaticLabel.Text = "Dienstleist.:";
+                    automaticTextBox.Width = 20;
+                    dynamicX += automaticTextBox.Width + 45;
+                    break;
+
+                case "HoheitlicheForschung":
+                    automaticLabel.Text = "Hoh. Forsch.:";
+                    automaticTextBox.Width = 20;
+                    dynamicX += automaticTextBox.Width + 45;
+                    break;
+
+                case "Gutachten":
+                    automaticLabel.Text = "Gutachten:";
+                    automaticTextBox.Width = 20;
+                    dynamicX += automaticTextBox.Width + 45;
+                    break;
+
+                case "FreieForschung":
+                    automaticLabel.Text = "Fr. Forsch.:";
+                    automaticTextBox.Width = 20;
+                    dynamicX += automaticTextBox.Width + 45;
+                    break;
+
+                case "Status":
+                    automaticLabel.Text = "Status:";
+                    automaticTextBox.Width = 60;
+                    dynamicX += automaticTextBox.Width + 40;
+                    break;
+
+                default:
+                    return ;
+            }
+            automaticLabel.AutoSize = true;
+            //making controls visible
+            automaticLabel.Show();
+            automaticTextBox.Show();
+            //making controls persistant
+            this.splitContainer1.Panel2.Controls.Add(automaticLabel);
+            this.splitContainer1.Panel2.Controls.Add(automaticTextBox);
+            
+        }
+
+
         public string SettingLabelText(string columnname)
         {
             switch (columnname)
             {   
                 case "Vertragsabschluss":
-                    return "Vertragsabschluss: \ndd.mm.yyyy und\nnicht leer";
+                    return "Vertragsabschluss:\ndd.mm.yyyy und\nnicht leer";
 
                 case "Projektnummer":
                     return "Projektnummer: ";
 
                 case "Projektname":
-                    return "Projektname: \nbeliebig, nicht leer";
+                    return "Projektname:\nbeliebig, nicht leer";
 
                 case "Labornummer":
-                    return "Labornummer: \n6 stellige Zahl und\nBuchstaben";
+                    return "Labornummer:\n6 stellige Zahl und\nBuchstaben";
 
                 case "PSPElement":
-                    return "PSPElement: \n15 stellige Zahl";
+                    return "PSPElement:\n15 stellige Zahl";
 
                 case "Projekpartner":
-                    return "Projekpartner: \n keine Zahl,\nsonst beliebig";
+                    return "Projekpartner:\nnur Buchstaben";
 
                 case "ProjektträgerUndAuftraggeber":
-                    return "Projektträger/Auftraggeber: \nkeine Zahl,\nsonst beliebig";
+                    return "Auftraggeber:\nnur Buchstaben";
 
                 case "ProjektAnfang":
-                    return "Projektanfang: \ndd.mm.yyyy";
+                    return "Projektanfang:\ndd.mm.yyyy";
 
                 case "ProjektEnde":
-                    return "Projektende: \ndd.mm.yyyy";
+                    return "Projektende:\ndd.mm.yyyy";
 
                 case "Projektvolumen":
-                    return "Projektvolumen: \nganze oder\nDezimalzahl";
+                    return "Projektvolumen:\nganze oder\nDezimalzahl";
 
                 case "Bearbeiter":
-                    return "Bearbeiter: \nkeine Zahl, nicht leer";
+                    return "Bearbeiter:\nnur Buchstaben und nicht leer";
 
                 case "Dienstleistung":
-                    return "Dienstleistung: \nx oder kein x";
+                    return "Dienstleistung:\nx oder kein x";
 
                 case "HoheitlicheForschung":
-                    return "Hoheitliche Forschung: \nx oder kein x";
+                    return "Hoheitliche Forschung:\nx oder kein x";
 
                 case "Gutachten":
-                    return "Gutachten: \nx oder kein x";
+                    return "Gutachten:\nx oder kein x";
 
                 case "FreieForschung":
-                    return "Freie Forschung: \nx oder kein x";
+                    return "Freie Forschung:\nx oder kein x";
 
                 case "Status":
-                    return "Status: \nnicht leer";
+                    return "Status:\nnicht leer";
 
                 default:
                     return "";
@@ -356,7 +506,7 @@ namespace ExcelProject
             foreach (string columnname in headers)
             {
                 TextBox tempTextBox = (TextBox)this.splitContainer1.Panel2.Controls["TextBox" + columnname];
-                if (!tempTextBox.Name.Equals("TextBoxStatus"))
+                if (!tempTextBox.Name.Equals("TextBoxStatus") || !tempTextBox.Name.Equals("TextBoxProjektnummer"))
                 {
                     tempTextBox.Enabled = false;
                 }
@@ -370,11 +520,13 @@ namespace ExcelProject
             foreach (string columnname in headers)
             {
                 TextBox tempTextBox = (TextBox)this.splitContainer1.Panel2.Controls["TextBox" + columnname];
-                if (!tempTextBox.Name.Equals("TextBoxStatus"))
+                if (!tempTextBox.Name.Equals("TextBoxStatus") || !tempTextBox.Name.Equals("TextBoxProjektnummer"))
                 {
                     tempTextBox.Enabled = true;
                 }
             }
+            TextBox locked = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxProjektnummer"];
+            locked.Enabled = false;
         }
 
         void addButton_Click(object sender, EventArgs e)
