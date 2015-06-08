@@ -10,7 +10,7 @@ namespace ExcelProject
 {
     class SQLiteLogic //: DBLogic
     {
-        private static string connectionStringDefault = @"Data Source=D:\Excel_Automation_Training\Projektliste GiB.sqlite;Version=3;";
+        private static string connectionStringDefault = @"Data Source=C:\Users\Administrator\Desktop\Project List\Projektliste GiB.sqlite;Version=3;";
         private static SQLiteDataAdapter da;
         private static DataTable dt;
         private static string[] headers;

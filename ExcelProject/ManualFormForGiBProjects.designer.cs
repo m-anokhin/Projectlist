@@ -86,7 +86,7 @@
             this.Controls.Add(this.splitContainer1);
             this.MaximumSize = new System.Drawing.Size(1800, 600);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1300, 550);
+            this.MinimumSize = new System.Drawing.Size(1278, 550);
             this.Name = "ManualFormForGiBProjects";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ManualFormForGiBProjects";

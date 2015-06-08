@@ -15,6 +15,7 @@ namespace ExcelProject
             "05 Angebot, Vertrag und Rechnungen","06 Berechnungen, Ausarbeitungen",
             "07 Literatur","08 Fotodokumentation","09 Messdaten (Labor)","10 Daten von Dritten (Zuarbeit)", "11 Veröffentlichungen"
         };
+        public static string ProjectsRootFolderTreeDir = "D:\\Test\\";
 
         /// <summary>
         /// create directory of a given project with its subdirectories
@@ -24,21 +25,7 @@ namespace ExcelProject
         public static void CreateFolders(string projectNumber, string projectName)
         {
             //string fullDirectoryName = projectNumber + "_" + projectName;
-            string fullPathName = "D:\\Test\\" + projectNumber + "_" + projectName + "\\";
-            //if (!Directory.Exists(fullDirectoryName))
-            //{
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[0]);
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[1]);
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[2]);
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[3]);
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[4]);
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[5]);
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[6]);
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[7]);
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[8]);
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[9]);
-                //Directory.CreateDirectory("D:\\Test\\" + fullDirectoryName + "\\" + subdirectories[10]);
-            //}
+            string fullPathName = ProjectsRootFolderTreeDir + projectNumber + "_" + projectName + "\\";
                 foreach (string subdir in FileSystemServices.subdirectories)
                 {
                     Directory.CreateDirectory(fullPathName + subdir);
@@ -48,8 +35,8 @@ namespace ExcelProject
 
         public static void OpenProjectFolder(string projectNumber, string projectName)
         {
-            string fullPathName = @"D:\Test\" + projectNumber + "_" + projectName ;
-            string fullPathNameToOpen = "D:\\Test\\" + projectNumber + "_" + projectName + "\\";
+            string fullPathName = ProjectsRootFolderTreeDir + projectNumber + "_" + projectName;
+            string fullPathNameToOpen = ProjectsRootFolderTreeDir + projectNumber + "_" + projectName + "\\";
             if (!Directory.Exists(fullPathName))
             {
                 System.Windows.Forms.MessageBox.Show("Verzeichniss:\n"+fullPathName + "\nexistiert nicht!");

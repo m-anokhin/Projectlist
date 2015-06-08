@@ -118,125 +118,39 @@ namespace ExcelProject
                 foreach (string columnname in headers)
                 {
                     Label hinweise = new Label();
-                    hinweise.Text = "Hinweise zum Ausfühlen der Textfelder:\n\n" +
-                                    "Vertragsabschluss:     dd.mm.yyyy und nicht leer\n"+
-                                    "Projektnummer:         wird automatisch erstellt\n"+
-                                    "Projektname:           beliebig, nicht leer\n"+
-                                    "Labornummer:           6 stellige Zahl und Buchstaben\n"+
-                                    "PSPElement:            15 stellige Zahl\n"+
-                                    "Projekpartner:         nur Buchstaben\n" +
-                                    "Auftraggeber:          nur Buchstaben\n"+
-                                    "Projektanfang:         dd.mm.yyyy\n" +
-                                    "Projektanfang:         dd.mm.yyyy\n"+
-                                    "Projektvolumen:        ganze oder\nDezimalzahl\n"+
-                                    "Bearbeiter:            nur Buchstaben und nicht leer\n"+
-                                    "Dienstleistung:        x oder kein x\n"+
-                                    "Hoheitliche Forschung: x oder kein x\n"+
-                                    "Gutachten:             x oder kein x\n"+
-                                    "Freie Forschung:       x oder kein x\n"+
-                                    "Status:                nicht leer\n";
+                    int offset_text = 50;
+                    hinweise.Font = new Font(FontFamily.GenericSansSerif, 9);
+                    string text = "Hinweise zum Ausfühlen der Textfelder:\n\n" +
+                                    "Vertragsabschluss:".PadRight(30) + "dd.mm.yyyy und nicht leer\n" +
+                                    "Projektnummer:".PadRight(31) + "wird automatisch erstellt\n" +
+                                    "Projektname:".PadRight(34) + "beliebig, nicht leer\n" +
+                                    "Labornummer:".PadRight(31) + "6 stellige Zahl und Buchstaben\n" +
+                                    "PSPElement:".PadRight(32) + "15 stellige Zahl\n" +
+                                    "Projekpartner:".PadRight(34) + "nur Buchstaben\n" +
+                                    "Auftraggeber:".PadRight(34) + "nur Buchstaben\n" +
+                                    "Projektanfang:".PadRight(33) + "dd.mm.yyyy\n" +
+                                    "Projektanfang:".PadRight(33) + "dd.mm.yyyy\n" +
+                                    "Projektvolumen:".PadRight(31) + "ganze oder Dezimalzahl\n" +
+                                    "Bearbeiter:".PadRight(36) + "nur Buchstaben und nicht leer\n" +
+                                    "Dienstleistung:".PadRight(33) + "x oder kein x\n" +
+                                    "Hoheitliche Forschung:".PadRight(25) + "x oder kein x\n" +
+                                    "Gutachten:".PadRight(35) + "x oder kein x\n" +
+                                    "Freie Forschung:".PadRight(30) + "x oder kein x\n" +
+                                    "Status:".PadRight(39) + "nicht leer\n";
+                    hinweise.Text = text;
                     SettingUI(columnname);
                     hinweise.AutoSize=true;
                     hinweise.ForeColor = System.Drawing.Color.Green;
-                    hinweise.Location = new Point(700, textboxY+40);
+                    hinweise.Location = new Point(700, textboxY+30);
                     hinweise.Show();
                     this.splitContainer1.Panel2.Controls.Add(hinweise);
-                    //// creation of controls
-                    //Label automaticLabel = new Label();
-                    //TextBox automaticTextBox = new TextBox();
-                    //// naming of controls
-                    //automaticLabel.Name = "Label" + columnname;
-                    //automaticLabel.Text = SettingLabelText(columnname);
-                    //automaticLabel.AutoSize = true;
-                    ////automaticLabel.Text = columnname + ": ";
-                    //automaticTextBox.Name = "TextBox" + columnname;
-                    ////automaticTextBox.Width = 70;
-                    //// positioning of controls
-                    //automaticLabel.Location = new Point(dynamicX, labelY);
-                    //automaticTextBox.Location = new Point(dynamicX, textboxY);
-                    ////making controls visible
-                    //automaticLabel.Show();
-                    //automaticTextBox.Show();
-                    ////making controls persistant
-                    //this.splitContainer1.Panel2.Controls.Add(automaticLabel);
-                    //this.splitContainer1.Panel2.Controls.Add(automaticTextBox);
-                    ////offseting controls
-                    //if (automaticLabel.Name.Equals("LabelProjektträgerUndAuftraggeber") || automaticLabel.Name.Equals("LabelHoheitlicheForschung"))
-                    //{
-                    //    dynamicX += 110;
-                    //}
-                    //else
-                    //{
-                    //    dynamicX += 110;
-                    //}
+
 
                      
                 }
 
                 //adding Add-, Update- and Clear Buttons
-                Button addButton = new Button();
-                Button updateButton = new Button();
-                Button clearButton = new Button();
-                Button openDirectoryButton = new Button();
-
-                Label StatusLabel = new Label();
-
-                ComboBox StatusComboBox = new ComboBox();
-
-                StatusComboBox.Items.Add("Vorb.");
-                StatusComboBox.Items.Add("Antr./Ange.");
-                StatusComboBox.Items.Add("beauf./bew.");
-                StatusComboBox.Items.Add("abgel.");
-
-                addButton.Name = "AddButton";
-                updateButton.Name = "UpdateButton";
-                clearButton.Name = "ClearButton";
-                openDirectoryButton.Name = "OpenDirectoryButton";
-                StatusLabel.Name = "StatusLabelComb";
-                StatusComboBox.Name = "StatusComboBox";
-
-                addButton.Text = "Hinzufügen";
-                updateButton.Text = "Aktualisieren";
-                clearButton.Text = "Textfelder leeren";
-                openDirectoryButton.Text = "Projektordner öffnen";
-                clearButton.AutoSize = true;
-                openDirectoryButton.AutoSize = true;
-                StatusLabel.Text = "Status auswählen: ";
-
-                addButton.Location = new Point(5, (textboxY + 40));
-                updateButton.Location = new Point(85, (textboxY + 40));
-                clearButton.Location = new Point(165, (textboxY + 40));
-                openDirectoryButton.Location = new Point(270, (textboxY + 40));
-                StatusLabel.Location = new Point(435, (textboxY + 40));
-                StatusComboBox.Location = new Point(535, (textboxY + 40));
-
-                addButton.Click += addButton_Click;
-                updateButton.Click += updateButton_Click;
-                clearButton.Click += clearButton_Click;
-                openDirectoryButton.Click += openDirectoryButton_Click;
-                StatusComboBox.SelectedValueChanged += StatusComboBox_SelectedValueChanged;
-
-
-                addButton.Show();
-                updateButton.Show();
-                clearButton.Show();
-                openDirectoryButton.Show();
-                StatusLabel.Show();
-                StatusComboBox.Show();
-
-
-                this.splitContainer1.Panel2.Controls.Add(addButton);
-                this.splitContainer1.Panel2.Controls.Add(updateButton);
-                this.splitContainer1.Panel2.Controls.Add(clearButton);
-                this.splitContainer1.Panel2.Controls.Add(openDirectoryButton);
-                this.splitContainer1.Panel2.Controls.Add(StatusLabel);
-                this.splitContainer1.Panel2.Controls.Add(StatusComboBox);
-
-                TextBox tempTextBox = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxStatus"];
-                tempTextBox.Enabled = false;
-                //TextBox temp2TextBox = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxProjektnummer"];
-                lockedOne = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxProjektnummer"];
-                lockedOne.Enabled = false;
+                Create_Add_Update_Clear_Buttons_and_StatusCombo();
 
             }
             catch (Exception ex)
@@ -247,12 +161,123 @@ namespace ExcelProject
             
         }
 
+        private void Create_Add_Update_Clear_Buttons_and_StatusCombo()
+        {
+            Button addButton = new Button();
+            addButton.Name = "AddButton";
+            addButton.Text = "Hinzufügen";
+            addButton.Location = new Point(5, (textboxY + 40));
+            addButton.Click += addButton_Click;
+            addButton.Show();
+            this.splitContainer1.Panel2.Controls.Add(addButton);
+
+
+            Button updateButton = new Button();
+            updateButton.Name = "UpdateButton";
+            updateButton.Text = "Aktualisieren";
+            updateButton.Location = new Point(85, (textboxY + 40));
+            updateButton.Click += updateButton_Click;
+            updateButton.Show();
+            this.splitContainer1.Panel2.Controls.Add(updateButton);
+            
+            
+            Button clearButton = new Button();
+            clearButton.Name = "ClearButton";
+            clearButton.Text = "Textfelder leeren";
+            clearButton.AutoSize = true;
+            clearButton.Location = new Point(165, (textboxY + 40));
+            clearButton.Click += clearButton_Click;
+            clearButton.Show();
+            this.splitContainer1.Panel2.Controls.Add(clearButton);
+            
+            
+            Button openDirectoryButton = new Button();
+            openDirectoryButton.Name = "OpenDirectoryButton";
+            openDirectoryButton.Text = "Projektordner öffnen";
+            openDirectoryButton.AutoSize = true;
+            openDirectoryButton.Location = new Point(270, (textboxY + 40));
+            openDirectoryButton.Click += openDirectoryButton_Click;
+            openDirectoryButton.Show();
+            this.splitContainer1.Panel2.Controls.Add(openDirectoryButton);
+
+            Button changeSourceFileDir = new Button();
+            changeSourceFileDir.Name = "changeSourceFileDirButton";
+            changeSourceFileDir.Text = "Ort der SQLite-Datenbank auswählen";
+            changeSourceFileDir.AutoSize = true;
+            changeSourceFileDir.Location = new Point(5, 200);
+            changeSourceFileDir.Click += changeSourceFileDir_Click;
+            changeSourceFileDir.Enabled = false;
+            changeSourceFileDir.Show();
+            this.splitContainer1.Panel2.Controls.Add(changeSourceFileDir);
+
+            Button changeProjectsRootFolderTreeDir = new Button();
+            changeProjectsRootFolderTreeDir.Name = "changeProjectsRootFolderTreeDirButton";
+            changeProjectsRootFolderTreeDir.Text = "Ort des Projektordners auswählen";
+            changeProjectsRootFolderTreeDir.AutoSize = true;
+            changeProjectsRootFolderTreeDir.Location = new Point(5, 250);
+            changeProjectsRootFolderTreeDir.Click += changeProjectsRootFolderTreeDir_Click;
+            changeProjectsRootFolderTreeDir.Enabled = false;
+            changeProjectsRootFolderTreeDir.Show();
+            this.splitContainer1.Panel2.Controls.Add(changeProjectsRootFolderTreeDir);
+
+            Button showLog = new Button();
+            showLog.Name = "showLogButton";
+            showLog.Text = "Log anzeigen";
+            showLog.AutoSize = true;
+            showLog.Location = new Point(5, 300);
+            showLog.Click += showLog_Click;
+            showLog.Show();
+            this.splitContainer1.Panel2.Controls.Add(showLog);
+
+            Label StatusLabel = new Label();
+            StatusLabel.Name = "StatusLabelComb";
+            StatusLabel.Text = "Status auswählen: ";
+            StatusLabel.Location = new Point(435, (textboxY + 40));
+            StatusLabel.Show();
+            this.splitContainer1.Panel2.Controls.Add(StatusLabel);
+
+
+            ComboBox StatusComboBox = new ComboBox();
+            StatusComboBox.Name = "StatusComboBox";
+            StatusComboBox.Items.Add("Vorb.");
+            StatusComboBox.Items.Add("Antr./Ange.");
+            StatusComboBox.Items.Add("beauf./bew.");
+            StatusComboBox.Items.Add("abgeschl.");
+            StatusComboBox.Location = new Point(535, (textboxY + 40));
+            StatusComboBox.SelectedValueChanged += StatusComboBox_SelectedValueChanged;
+            StatusComboBox.Show();
+            this.splitContainer1.Panel2.Controls.Add(StatusComboBox);
+            
+            
+
+            TextBox tempTextBox = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxStatus"];
+            tempTextBox.Enabled = false;
+            //TextBox temp2TextBox = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxProjektnummer"];
+            lockedOne = (TextBox)this.splitContainer1.Panel2.Controls["TextBoxProjektnummer"];
+            lockedOne.Enabled = false;
+        }
+
+        void showLog_Click(object sender, EventArgs e)
+        {
+            //TODO: show Log
+        }
+
+        void changeProjectsRootFolderTreeDir_Click(object sender, EventArgs e)
+        {
+            //TODO: create filedialog and save result in ProjectsRootFolderTreeDir in FileSystemServices.cs
+        }
+
+        void changeSourceFileDir_Click(object sender, EventArgs e)
+        {
+            //TODO: create filedialog and save result in connectionStringDefault in SQLLite.cs
+        }
+
         public void SettingUI(string columnname)
         {
             Label automaticLabel = new Label();
             TextBox automaticTextBox = new TextBox();
             automaticLabel.Name = "Label" + columnname;
-            automaticLabel.Text = SettingLabelText(columnname);
+            //automaticLabel.Text = SettingLabelText(columnname);
             automaticLabel.AutoSize = true;
             automaticTextBox.Name = "TextBox" + columnname;
             automaticLabel.Location = new Point(dynamicX, labelY);
@@ -367,62 +392,62 @@ namespace ExcelProject
         }
 
 
-        public string SettingLabelText(string columnname)
-        {
-            switch (columnname)
-            {   
-                case "Vertragsabschluss":
-                    return "Vertragsabschluss:\ndd.mm.yyyy und\nnicht leer";
+        //public string SettingLabelText(string columnname)
+        //{
+        //    switch (columnname)
+        //    {   
+        //        case "Vertragsabschluss":
+        //            return "Vertragsabschluss:\ndd.mm.yyyy und\nnicht leer";
 
-                case "Projektnummer":
-                    return "Projektnummer: ";
+        //        case "Projektnummer":
+        //            return "Projektnummer: ";
 
-                case "Projektname":
-                    return "Projektname:\nbeliebig, nicht leer";
+        //        case "Projektname":
+        //            return "Projektname:\nbeliebig, nicht leer";
 
-                case "Labornummer":
-                    return "Labornummer:\n6 stellige Zahl und\nBuchstaben";
+        //        case "Labornummer":
+        //            return "Labornummer:\n6 stellige Zahl und\nBuchstaben";
 
-                case "PSPElement":
-                    return "PSPElement:\n15 stellige Zahl";
+        //        case "PSPElement":
+        //            return "PSPElement:\n15 stellige Zahl";
 
-                case "Projekpartner":
-                    return "Projekpartner:\nnur Buchstaben";
+        //        case "Projekpartner":
+        //            return "Projekpartner:\nnur Buchstaben";
 
-                case "ProjektträgerUndAuftraggeber":
-                    return "Auftraggeber:\nnur Buchstaben";
+        //        case "ProjektträgerUndAuftraggeber":
+        //            return "Auftraggeber:\nnur Buchstaben";
 
-                case "ProjektAnfang":
-                    return "Projektanfang:\ndd.mm.yyyy";
+        //        case "ProjektAnfang":
+        //            return "Projektanfang:\ndd.mm.yyyy";
 
-                case "ProjektEnde":
-                    return "Projektende:\ndd.mm.yyyy";
+        //        case "ProjektEnde":
+        //            return "Projektende:\ndd.mm.yyyy";
 
-                case "Projektvolumen":
-                    return "Projektvolumen:\nganze oder\nDezimalzahl";
+        //        case "Projektvolumen":
+        //            return "Projektvolumen:\nganze oder\nDezimalzahl";
 
-                case "Bearbeiter":
-                    return "Bearbeiter:\nnur Buchstaben und nicht leer";
+        //        case "Bearbeiter":
+        //            return "Bearbeiter:\nnur Buchstaben und nicht leer";
 
-                case "Dienstleistung":
-                    return "Dienstleistung:\nx oder kein x";
+        //        case "Dienstleistung":
+        //            return "Dienstleistung:\nx oder kein x";
 
-                case "HoheitlicheForschung":
-                    return "Hoheitliche Forschung:\nx oder kein x";
+        //        case "HoheitlicheForschung":
+        //            return "Hoheitliche Forschung:\nx oder kein x";
 
-                case "Gutachten":
-                    return "Gutachten:\nx oder kein x";
+        //        case "Gutachten":
+        //            return "Gutachten:\nx oder kein x";
 
-                case "FreieForschung":
-                    return "Freie Forschung:\nx oder kein x";
+        //        case "FreieForschung":
+        //            return "Freie Forschung:\nx oder kein x";
 
-                case "Status":
-                    return "Status:\nnicht leer";
+        //        case "Status":
+        //            return "Status:\nnicht leer";
 
-                default:
-                    return "";
-            }
-        }
+        //        default:
+        //            return "";
+        //    }
+        //}
 
         void StatusComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -634,6 +659,10 @@ namespace ExcelProject
                 if (statusTextBox.Text.Equals("abgeschl."))
                 {
                     LockEditing();
+                }
+                else
+                {
+                    UnlockEditing();
                 }
             }
                 
