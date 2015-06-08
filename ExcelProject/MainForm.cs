@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
+using System.Security.Principal;
 
 namespace ExcelProject
 {
-    public partial class ManualFormForGiBProjects : System.Windows.Forms.Form
+    public partial class MainForm : System.Windows.Forms.Form
     {
         private string connectionStringDefault = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\Excel_Automation_Training\Projektliste GiB.xlsx;Extended Properties=""Excel 12.0;HDR=YES;""";
         private DataTable form_dt;
@@ -24,9 +25,10 @@ namespace ExcelProject
         private static int dynamicX = 5;
         private static int labelY = 40;
         private static int textboxY = labelY + 15;
+        private string user = string.Empty;
         
 
-        public ManualFormForGiBProjects()
+        public MainForm()
         {
             InitializeComponent();
             
@@ -38,7 +40,7 @@ namespace ExcelProject
             //form_dt = ExcelLogic.FillDataTable();
             //headers = ExcelLogic.GetExcelColumns();
             //bearbeiterValues = ExcelLogic.GetBearbeiterValues();
-            form_dt = SQLiteLogic.FillDataTable();
+            form_dt = SQLiteLogic.GetProjects();
             headers = SQLiteLogic.GetColumnNames();
             bearbeiterValues = SQLiteLogic.GetBearbeiterValues();
             
@@ -51,6 +53,7 @@ namespace ExcelProject
             AddUIControlsToPanel2ofSplitCOntainer();
             ExcelGridView.DataSource = form_dt;
             bearbeiter_combobox();
+            user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             
         }
 
@@ -259,7 +262,8 @@ namespace ExcelProject
 
         void showLog_Click(object sender, EventArgs e)
         {
-            //TODO: show Log
+            LogForm mylog = new LogForm();
+            mylog.Show();
         }
 
         void changeProjectsRootFolderTreeDir_Click(object sender, EventArgs e)
@@ -498,9 +502,9 @@ namespace ExcelProject
                 if (dialogResult == DialogResult.Yes)
                 {
                     form_dt = SQLiteLogic.UpdateDataBaseFile(previousTextBoxValues, currentTextBoxValues);
-
+                    SQLiteLogic.LogUpdateProject(user, previousTextBoxValues, currentTextBoxValues);
                     ExcelGridView.DataSource = form_dt;
-                    dialogBoxMessage = string.Empty;
+                    //dialogBoxMessage = string.Empty;
                 }
    
             }
@@ -586,7 +590,7 @@ namespace ExcelProject
                 projectNrAsStr = currentYear + "0" + projectNr;
             }
 
-            MessageBox.Show("Nechst Project would be: " + projectNrAsStr);
+            //MessageBox.Show("Nechst Project would be: " + projectNrAsStr);
             currentTextBoxValues["Projektnummer"] = projectNrAsStr;
 
             if (EntryValidation.ValidateInput(currentTextBoxValues))
@@ -608,7 +612,8 @@ namespace ExcelProject
                     int colaffected = SQLiteLogic.AddBearbeiterToTheDataBase(currentTextBoxValues);
                     if (colaffected==1)
                     {
-                        form_dt = SQLiteLogic.FillDataTable();
+                        SQLiteLogic.LogAddProject(user, currentTextBoxValues); 
+                        form_dt = SQLiteLogic.GetProjects();
                         FileSystemServices.CreateFolders(currentTextBoxValues["Projektnummer"], currentTextBoxValues["Projektname"]);
                         ExcelGridView.DataSource = form_dt;
                         MessageBox.Show("Erfolgreich hinzugefügt", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);

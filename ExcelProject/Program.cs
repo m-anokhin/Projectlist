@@ -16,7 +16,7 @@ namespace ExcelProject
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ManualFormForGiBProjects());
+            Application.Run(new MainForm());
         }
     }
 }

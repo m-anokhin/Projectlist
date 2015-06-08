@@ -1,6 +1,6 @@
 ﻿namespace ExcelProject
 {
-    partial class ManualFormForGiBProjects
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.ExcelGridView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -76,20 +77,21 @@
             this.ExcelGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.ExcelGridView_DataBindingComplete);
             this.ExcelGridView.SelectionChanged += new System.EventHandler(this.ExcelGridView_SelectionChanged);
             // 
-            // ManualFormForGiBProjects
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1334, 561);
+            this.ClientSize = new System.Drawing.Size(1268, 561);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(1800, 600);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1278, 550);
-            this.Name = "ManualFormForGiBProjects";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ManualFormForGiBProjects";
+            this.Text = "GiB Projektverwaltung-Software";
             this.Load += new System.EventHandler(this.ManualFormForGiBProjects_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

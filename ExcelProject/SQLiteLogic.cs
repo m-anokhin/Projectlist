@@ -31,7 +31,7 @@ namespace ExcelProject
            
         }
 
-        public static DataTable FillDataTable()
+        public static DataTable GetProjects()
         {
             dt = new DataTable();
             using (SQLiteConnection conn = CreateConnection())
@@ -109,12 +109,12 @@ namespace ExcelProject
                 }
 
             }
-            dt = FillDataTable();
+            dt = GetProjects();
             System.Windows.Forms.MessageBox.Show(columnsaffected + " columns updated");
             return dt;
         }
     
-         public static int AddBearbeiterToTheDataBase(Dictionary<string, string> bearbeiterData)
+        public static int AddBearbeiterToTheDataBase(Dictionary<string, string> bearbeiterData)
         {
             int columnsaffected = 0;
             using (SQLiteConnection conn = CreateConnection())
@@ -152,6 +152,77 @@ namespace ExcelProject
 
                 return columnsaffected;
             }
+        }
+
+        public static DataTable GetLog()
+        {
+            dt = new DataTable();
+            using (SQLiteConnection conn = CreateConnection())
+            {
+                conn.Open();
+                using (da = new SQLiteDataAdapter(@"select * from LogData", conn))
+                {
+                    try
+                    {
+                        da.Fill(dt);
+                        conn.Close();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.Forms.MessageBox.Show(ex.ToString());
+                        return null;
+                    }
+
+                }
+            }
+            return dt;
+        }
+
+        public static int LogAddProject(String user, Dictionary<string, string> currentTextBoxValues)
+        {
+            string action = "Add Project\n";
+            foreach (var key in currentTextBoxValues.Keys)
+            {
+                action += key + ": " + currentTextBoxValues[key] + "; ";
+            }
+            int rowsaffected = 0;
+            string insertQuery = "insert into LogData(user,dateandtime,action) values('"+user+"', '"+(System.DateTime.Now).ToString()+"', '"+action+"')";
+            using (SQLiteConnection conn = CreateConnection())
+            {
+                conn.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(insertQuery, conn))
+                {
+                    rowsaffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
+            return rowsaffected;
+        }
+
+        public static int LogUpdateProject(String user, Dictionary<string, string> previousTextBoxValues, Dictionary<string, string> currentTextBoxValues)
+        {
+            string action = "update Projectnumber "+ previousTextBoxValues["Projektnummer"]+ "\n";
+            foreach (var key in previousTextBoxValues.Keys)
+            {
+                if (!previousTextBoxValues[key].Equals(currentTextBoxValues[key]))
+                {
+                    action += key + ": from " + previousTextBoxValues[key] + " to " + currentTextBoxValues[key];
+                }
+            }
+
+            int rowsaffected = 0;
+            string insertQuery = "insert into LogData(user,dateandtime,action) values('" + user + "', '" + (System.DateTime.Now).ToString() + "', '" + action + "')";
+            using (SQLiteConnection conn = CreateConnection())
+            {
+                conn.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(insertQuery, conn))
+                {
+                    rowsaffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
+            return rowsaffected;
         }
     }
 }
